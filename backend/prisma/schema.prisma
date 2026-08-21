@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(uuid())
+  email       String       @unique
+  password    String
+  role        String       @default("STUDENT") // STUDENT, INSTITUTION, RECRUITER, ADMIN
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  student     Student?
+  institution Institution?
+  recruiter   Recruiter?
+
+  @@map("users")
+}
+
+model Student {
+  id             String        @id @default(uuid())
+  userId         String        @unique
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institutionId  String?
+  institution    Institution?  @relation(fields: [institutionId], references: [id], onDelete: SetNull)
+  rollNumber     String?
+  firstName      String
+  lastName       String
+  phone          String?
+  department     String
+  cgpa           Float         @default(0.0)
+  graduationYear Int
+  resumeUrl      String?
+  skills         String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  applications   Application[]
+  placements     Placement[]
+
+  @@map("students")
+}
+
+model Institution {
+  id               String      @id @default(uuid())
+  userId           String      @unique
+  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name             String
+  code             String      @unique
+  address          String?
+  contactEmail     String
+  phone            String?
+  coordinatorName  String?
+  coordinatorEmail String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  students         Student[]
+  placements       Placement[]
+
+  @@map("institutions")
+}
+
+model Recruiter {
+  id            String        @id @default(uuid())
+  userId        String        @unique
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName   String
+  industry      String?
+  website       String?
+  recruiterName String
+  contactEmail  String
+  phone         String?
+  isVerified    Boolean       @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  opportunities Opportunity[]
+  placements    Placement[]
+
+  @@map("recruiters")
+}
+
+model Opportunity {
+  id                  String        @id @default(uuid())
+  recruiterId         String
+  recruiter           Recruiter     @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  title               String
+  description         String
+  company             String
+  jobType             String        @default("FULL_TIME") // FULL_TIME, INTERNSHIP, PART_TIME
+  location            String
+  salary              String
+  minCgpa             Float         @default(0.0)
+  eligibleDepartments String        @default("ALL")
+  deadline            DateTime
+  status              String        @default("OPEN") // OPEN, CLOSED, ARCHIVED
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+
+  applications        Application[]
+  placements          Placement[]
+
+  @@map("opportunities")
+}
+
+model Application {
+  id            String      @id @default(uuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  studentId     String
+  student       Student     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  status        String      @default("APPLIED") // APPLIED, SHORTLISTED, INTERVIEW_SCHEDULED, REJECTED, ACCEPTED
+  appliedAt     DateTime    @default(now())
+  resumeUrl     String?
+  coverLetter   String?
+  remarks       String?
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([opportunityId, studentId])
+  @@map("applications")
+}
+
+model Placement {
+  id             String       @id @default(uuid())
+  studentId      String
+  student        Student      @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  opportunityId  String
+  opportunity    Opportunity  @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  recruiterId    String
+  recruiter      Recruiter    @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  institutionId  String?
+  institution    Institution? @relation(fields: [institutionId], references: [id], onDelete: SetNull)
+  package        Float        // e.g. annual compensation / LPA
+  offerLetterUrl String?
+  placementDate  DateTime     @default(now())
+  status         String       @default("CONFIRMED") // CONFIRMED, PENDING, REVOKED
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("placements")
+}
