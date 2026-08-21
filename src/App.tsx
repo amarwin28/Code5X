@@ -11,7 +11,10 @@ import { ToastMessage } from './types';
 import HowItWorks from './pages/HowItWorks';
 import About from './pages/About';
 import Recruiters from './pages/Recruiters';
+<<<<<<< HEAD
 import Institutions from './pages/Institutions';
+=======
+>>>>>>> origin/main
 
 export function App() {
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
@@ -22,14 +25,21 @@ export function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
       if (hash === 'how-it-works') {
         setCurrentPage('how-it-works');
       } else if (hash === 'about') {
         setCurrentPage('about');
       } else if (hash === 'recruiters') {
         setCurrentPage('recruiters');
+<<<<<<< HEAD
       } else if (hash === 'institutions') {
+=======
+      } else if (hash === 'ecosystem' || hash === 'institutions') {
+>>>>>>> origin/main
         setCurrentPage('institutions');
       } else if (hash === 'hero' || hash === '' || hash === 'home') {
         setCurrentPage('home');
@@ -38,6 +48,7 @@ export function App() {
 
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
+<<<<<<< HEAD
 
     return () => {
       window.removeEventListener('hashchange', handleHashChange);
@@ -48,6 +59,12 @@ export function App() {
     message: string,
     type: 'success' | 'info' | 'error' = 'success'
   ) => {
+=======
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const addToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
+>>>>>>> origin/main
     const newToast: ToastMessage = {
       id: Date.now().toString(),
       message,
@@ -57,7 +74,11 @@ export function App() {
     setToasts((prev) => [...prev, newToast]);
 
     setTimeout(() => {
+<<<<<<< HEAD
       setToasts((prev) => prev.filter((toast) => toast.id !== newToast.id));
+=======
+      setToasts((prev) => prev.filter((t) => t.id !== newToast.id));
+>>>>>>> origin/main
     }, 4000);
   };
 
@@ -65,11 +86,16 @@ export function App() {
     switch (currentPage) {
       case 'how-it-works':
         return (
+<<<<<<< HEAD
           <HowItWorks
+=======
+          <HowItWorks 
+>>>>>>> origin/main
             onOpenPartner={() => setIsPartnerOpen(true)}
             onOpenSignIn={() => setIsSignInOpen(true)}
           />
         );
+<<<<<<< HEAD
 
       case 'about':
         return <About />;
@@ -86,11 +112,22 @@ export function App() {
           />
         );
 
+=======
+      case 'about':
+        return <About />;
+      case 'recruiters':
+        return <Recruiters />;
+      case 'institutions':
+>>>>>>> origin/main
       case 'home':
       default:
         return (
           <>
+<<<<<<< HEAD
             <HeroSection
+=======
+            <HeroSection 
+>>>>>>> origin/main
               onOpenPartner={() => setIsPartnerOpen(true)}
               onOpenSignIn={() => setIsSignInOpen(true)}
             />
@@ -103,13 +140,18 @@ export function App() {
 
   return (
     <div className="bg-[#f7f9fb] text-[#191c1e] font-body antialiased pt-20 min-h-screen flex flex-col">
+<<<<<<< HEAD
       <Navbar
+=======
+      <Navbar 
+>>>>>>> origin/main
         currentPage={currentPage}
         onNavigate={(page) => setCurrentPage(page)}
         onOpenPartner={() => setIsPartnerOpen(true)}
         onOpenSignIn={() => setIsSignInOpen(true)}
       />
 
+<<<<<<< HEAD
       <main className="flex-grow">{renderPage()}</main>
 
       <Footer />
@@ -124,6 +166,24 @@ export function App() {
         isOpen={isSignInOpen}
         onClose={() => setIsSignInOpen(false)}
         onSubmitSuccess={(message) => addToast(message, 'success')}
+=======
+      <main className="flex-grow">
+        {renderPage()}
+      </main>
+
+      <Footer />
+
+      <PartnerModal 
+        isOpen={isPartnerOpen}
+        onClose={() => setIsPartnerOpen(false)}
+        onSubmitSuccess={(msg) => addToast(msg, 'success')}
+      />
+
+      <SignInModal 
+        isOpen={isSignInOpen}
+        onClose={() => setIsSignInOpen(false)}
+        onSubmitSuccess={(msg) => addToast(msg, 'success')}
+>>>>>>> origin/main
       />
 
       <ToastContainer toasts={toasts} />
@@ -131,4 +191,8 @@ export function App() {
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> origin/main
