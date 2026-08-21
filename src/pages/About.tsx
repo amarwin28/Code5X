@@ -33,7 +33,8 @@ const About: React.FC = () => {
           style={{
             maxWidth: "900px",
             margin: "20px auto",
-            fontSize: "clamp(45px, 7vw, 75px)",
+            fontSize: "clamp(48px, 5.5vw, 72px)",
+            fontWeight: 700,
             lineHeight: 1.05,
             letterSpacing: "-3px",
           }}
@@ -83,7 +84,7 @@ const About: React.FC = () => {
 
           <h2
             style={{
-              fontSize: "clamp(38px, 5vw, 52px)",
+              fontSize: "clamp(32px, 3.8vw, 42px)",
               lineHeight: 1.1,
               letterSpacing: "-2px",
               margin: "15px 0 25px",
@@ -222,7 +223,7 @@ const About: React.FC = () => {
 
           <h2
             style={{
-              fontSize: "clamp(38px, 5vw, 58px)",
+              fontSize: "clamp(34px, 4vw, 46px)",
               lineHeight: 1.1,
               letterSpacing: "-2px",
               margin: "20px 0",
@@ -267,7 +268,7 @@ const About: React.FC = () => {
 
           <h2
             style={{
-              fontSize: "clamp(38px, 5vw, 52px)",
+              fontSize: "clamp(32px, 3.8vw, 42px)",
               margin: "15px 0",
               letterSpacing: "-2px",
             }}
@@ -360,7 +361,7 @@ const About: React.FC = () => {
       >
         <h2
           style={{
-            fontSize: "clamp(35px, 5vw, 50px)",
+            fontSize: "clamp(31px, 3.8vw, 42px)",
             letterSpacing: "-2px",
             margin: "0 0 15px",
           }}

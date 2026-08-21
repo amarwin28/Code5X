@@ -11,6 +11,7 @@ import { ToastMessage } from './types';
 import HowItWorks from './pages/HowItWorks';
 import About from './pages/About';
 import Recruiters from './pages/Recruiters';
+import Institutions from './pages/Institutions';
 
 export function App() {
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
@@ -21,13 +22,14 @@ export function App() {
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
+
       if (hash === 'how-it-works') {
         setCurrentPage('how-it-works');
       } else if (hash === 'about') {
         setCurrentPage('about');
       } else if (hash === 'recruiters') {
         setCurrentPage('recruiters');
-      } else if (hash === 'ecosystem' || hash === 'institutions') {
+      } else if (hash === 'institutions') {
         setCurrentPage('institutions');
       } else if (hash === 'hero' || hash === '' || hash === 'home') {
         setCurrentPage('home');
@@ -36,10 +38,16 @@ export function App() {
 
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
   }, []);
 
-  const addToast = (message: string, type: 'success' | 'info' | 'error' = 'success') => {
+  const addToast = (
+    message: string,
+    type: 'success' | 'info' | 'error' = 'success'
+  ) => {
     const newToast: ToastMessage = {
       id: Date.now().toString(),
       message,
@@ -49,7 +57,7 @@ export function App() {
     setToasts((prev) => [...prev, newToast]);
 
     setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== newToast.id));
+      setToasts((prev) => prev.filter((toast) => toast.id !== newToast.id));
     }, 4000);
   };
 
@@ -57,21 +65,32 @@ export function App() {
     switch (currentPage) {
       case 'how-it-works':
         return (
-          <HowItWorks 
+          <HowItWorks
             onOpenPartner={() => setIsPartnerOpen(true)}
             onOpenSignIn={() => setIsSignInOpen(true)}
           />
         );
+
       case 'about':
         return <About />;
+
       case 'recruiters':
         return <Recruiters />;
+
       case 'institutions':
+        return (
+          <Institutions
+            onOpenPartner={() => setIsPartnerOpen(true)}
+            onOpenSignIn={() => setIsSignInOpen(true)}
+            onToastSuccess={(message) => addToast(message, 'success')}
+          />
+        );
+
       case 'home':
       default:
         return (
           <>
-            <HeroSection 
+            <HeroSection
               onOpenPartner={() => setIsPartnerOpen(true)}
               onOpenSignIn={() => setIsSignInOpen(true)}
             />
@@ -84,29 +103,27 @@ export function App() {
 
   return (
     <div className="bg-[#f7f9fb] text-[#191c1e] font-body antialiased pt-20 min-h-screen flex flex-col">
-      <Navbar 
+      <Navbar
         currentPage={currentPage}
         onNavigate={(page) => setCurrentPage(page)}
         onOpenPartner={() => setIsPartnerOpen(true)}
         onOpenSignIn={() => setIsSignInOpen(true)}
       />
 
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
+      <main className="flex-grow">{renderPage()}</main>
 
       <Footer />
 
-      <PartnerModal 
+      <PartnerModal
         isOpen={isPartnerOpen}
         onClose={() => setIsPartnerOpen(false)}
-        onSubmitSuccess={(msg) => addToast(msg, 'success')}
+        onSubmitSuccess={(message) => addToast(message, 'success')}
       />
 
-      <SignInModal 
+      <SignInModal
         isOpen={isSignInOpen}
         onClose={() => setIsSignInOpen(false)}
-        onSubmitSuccess={(msg) => addToast(msg, 'success')}
+        onSubmitSuccess={(message) => addToast(message, 'success')}
       />
 
       <ToastContainer toasts={toasts} />
