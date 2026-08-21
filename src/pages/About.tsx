@@ -1,6 +1,10 @@
 import React from "react";
 
-const About: React.FC = () => {
+interface AboutProps {
+  onOpenPartner?: () => void;
+}
+
+const About: React.FC<AboutProps> = ({ onOpenPartner }) => {
   return (
     <div
       style={{
@@ -87,6 +91,8 @@ const About: React.FC = () => {
               fontSize: "clamp(32px, 3.8vw, 42px)",
               lineHeight: 1.1,
               letterSpacing: "-2px",
+              fontWeight: 700,
+              color: "#111111",
               margin: "15px 0 25px",
             }}
           >
@@ -97,9 +103,10 @@ const About: React.FC = () => {
 
           <p
             style={{
-              color: "#666b77",
-              fontSize: "17px",
-              lineHeight: 1.8,
+              color: "#5d6370",
+              fontSize: "18px",
+              lineHeight: 1.7,
+              marginBottom: "16px",
             }}
           >
             Students have talent. Institutions have talented communities.
@@ -109,9 +116,9 @@ const About: React.FC = () => {
 
           <p
             style={{
-              color: "#666b77",
-              fontSize: "17px",
-              lineHeight: 1.8,
+              color: "#5d6370",
+              fontSize: "18px",
+              lineHeight: 1.7,
             }}
           >
             ELEVA was created to change that. We are building a platform where
@@ -132,6 +139,51 @@ const About: React.FC = () => {
             overflow: "hidden",
           }}
         >
+          {/* SVG Connecting Dashed Lines */}
+          <svg 
+            className="absolute inset-0 w-full h-full pointer-events-none z-[1]" 
+            viewBox="0 0 100 100" 
+            preserveAspectRatio="none"
+          >
+            {/* STUDENTS to Center E */}
+            <line 
+              x1="22%" 
+              y1="25%" 
+              x2="50%" 
+              y2="50%" 
+              stroke="#5141df" 
+              strokeWidth="1.5" 
+              strokeDasharray="3 3" 
+              strokeOpacity="0.4"
+              className="animate-dash-flow"
+            />
+            {/* INSTITUTIONS to Center E */}
+            <line 
+              x1="78%" 
+              y1="25%" 
+              x2="50%" 
+              y2="50%" 
+              stroke="#5141df" 
+              strokeWidth="1.5" 
+              strokeDasharray="3 3" 
+              strokeOpacity="0.4"
+              className="animate-dash-flow"
+            />
+            {/* RECRUITERS to Center E */}
+            <line 
+              x1="48%" 
+              y1="78%" 
+              x2="50%" 
+              y2="50%" 
+              stroke="#5141df" 
+              strokeWidth="1.5" 
+              strokeDasharray="3 3" 
+              strokeOpacity="0.4"
+              className="animate-dash-flow"
+            />
+          </svg>
+
+          {/* CENTER */}
           <div
             style={{
               position: "absolute",
@@ -149,6 +201,7 @@ const About: React.FC = () => {
               fontSize: "35px",
               fontWeight: 700,
               boxShadow: "0 15px 40px rgba(81,65,223,0.3)",
+              zIndex: 2,
             }}
           >
             E
@@ -227,6 +280,7 @@ const About: React.FC = () => {
               lineHeight: 1.1,
               letterSpacing: "-2px",
               margin: "20px 0",
+              fontWeight: 700,
             }}
           >
             Make opportunity more{" "}
@@ -271,6 +325,9 @@ const About: React.FC = () => {
               fontSize: "clamp(32px, 3.8vw, 42px)",
               margin: "15px 0",
               letterSpacing: "-2px",
+              lineHeight: 1.1,
+              fontWeight: 700,
+              color: "#111111",
             }}
           >
             Built around{" "}
@@ -314,7 +371,10 @@ const About: React.FC = () => {
                 padding: "35px",
                 border: "1px solid #e7e8ed",
                 borderRadius: "15px",
+                background: "#ffffff",
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
+              className="hover:border-[#5141df]/40 hover:shadow-[0_12px_32px_rgba(81,65,223,0.08)] hover:-translate-y-1"
             >
               <span
                 style={{
@@ -329,7 +389,10 @@ const About: React.FC = () => {
               <h3
                 style={{
                   fontSize: "21px",
+                  fontWeight: 700,
+                  letterSpacing: "-0.5px",
                   margin: "22px 0 12px",
+                  color: "#111111",
                 }}
               >
                 {value.title}
@@ -339,6 +402,7 @@ const About: React.FC = () => {
                 style={{
                   color: "#6b707b",
                   lineHeight: 1.7,
+                  fontSize: "15px",
                   margin: 0,
                 }}
               >
@@ -352,7 +416,7 @@ const About: React.FC = () => {
       {/* FINAL CTA */}
       <section
         style={{
-          margin: "10px 8% 100px",
+          margin: "40px 8% 0px",
           padding: "70px 50px",
           borderRadius: "20px",
           background: "#f3f1ff",
@@ -363,7 +427,10 @@ const About: React.FC = () => {
           style={{
             fontSize: "clamp(31px, 3.8vw, 42px)",
             letterSpacing: "-2px",
+            fontWeight: 700,
+            color: "#111111",
             margin: "0 0 15px",
+            lineHeight: 1.15,
           }}
         >
           The future starts with a{" "}
@@ -376,6 +443,7 @@ const About: React.FC = () => {
             maxWidth: "600px",
             margin: "0 auto 30px",
             lineHeight: 1.7,
+            fontSize: "17px",
           }}
         >
           Join ELEVA and become part of an ecosystem connecting education,
@@ -383,6 +451,7 @@ const About: React.FC = () => {
         </p>
 
         <button
+          onClick={onOpenPartner}
           style={{
             padding: "15px 28px",
             borderRadius: "8px",
@@ -392,7 +461,11 @@ const About: React.FC = () => {
             fontSize: "15px",
             fontWeight: 650,
             cursor: "pointer",
+            boxShadow: "0 4px 14px rgba(81,65,223,0.25)",
+            transition: "all 0.2s ease",
           }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#4335c4")}
+          onMouseLeave={(e) => (e.currentTarget.style.background = "#5141df")}
         >
           Partner With Eleva
         </button>

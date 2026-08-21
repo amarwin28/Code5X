@@ -10,7 +10,7 @@ export default {
       colors: {
         "primary": "#000000",
         "on-primary": "#ffffff",
-        "secondary": "#4b41e1",
+        "secondary": "#5141df",
         "on-secondary": "#ffffff",
         "background": "#f7f9fb",
         "surface": "#f7f9fb",

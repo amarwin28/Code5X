@@ -21,48 +21,79 @@ export const PartnerModal: React.FC<PartnerModalProps> = ({ isOpen, onClose, onS
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl p-8 max-w-lg w-full shadow-2xl border border-[#c6c6cd] space-y-6 relative animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+      <div 
+        style={{
+          background: "#ffffff",
+          borderRadius: "20px",
+          padding: "36px",
+          maxWidth: "520px",
+          width: "100%",
+          boxShadow: "0 25px 60px rgba(15,23,42,0.18)",
+          border: "1px solid #e7e8ed",
+          position: "relative",
+        }}
+        className="space-y-6 animate-in fade-in zoom-in-95 duration-200"
+      >
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#45464d] hover:text-black"
+          className="absolute top-5 right-5 text-[#6b707b] hover:text-black transition-colors"
         >
-          <span className="material-symbols-outlined">close</span>
+          <span className="material-symbols-outlined text-[22px]">close</span>
         </button>
 
         <div className="space-y-2">
-          <h3 className="font-headline text-[24px] font-bold text-black">Partner With Eleva</h3>
-          <p className="text-sm text-[#45464d]">
+          <span style={{ color: "#5141df", fontSize: "12px", fontWeight: 700, letterSpacing: "1.5px" }}>
+            PARTNERSHIP INQUIRY
+          </span>
+          <h3 style={{ fontSize: "24px", fontWeight: 700, letterSpacing: "-1px", color: "#111111", margin: "4px 0" }}>
+            Partner With Eleva
+          </h3>
+          <p style={{ color: "#5d6370", fontSize: "14.5px", lineHeight: 1.6, margin: 0 }}>
             Provide your details and our institutional partnerships team will get in touch with you.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">Organization Name</label>
+            <label className="block text-[13px] font-semibold text-[#111111] mb-1.5">Organization Name</label>
             <input 
               type="text" 
               required 
               value={orgName}
               onChange={(e) => setOrgName(e.target.value)}
               placeholder="e.g. Stanford University / Tech Corp" 
-              className="w-full px-4 py-2.5 rounded-lg border border-[#c6c6cd] text-sm focus:ring-2 focus:ring-[#4b41e1] outline-none"
+              className="w-full px-4 py-2.5 rounded-lg border border-[#e7e8ed] text-[14px] focus:ring-2 focus:ring-[#5141df] focus:border-[#5141df] outline-none transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-black mb-1">Work Email</label>
+            <label className="block text-[13px] font-semibold text-[#111111] mb-1.5">Work Email</label>
             <input 
               type="email" 
               required 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@institution.edu" 
-              className="w-full px-4 py-2.5 rounded-lg border border-[#c6c6cd] text-sm focus:ring-2 focus:ring-[#4b41e1] outline-none"
+              className="w-full px-4 py-2.5 rounded-lg border border-[#e7e8ed] text-[14px] focus:ring-2 focus:ring-[#5141df] focus:border-[#5141df] outline-none transition-all"
             />
           </div>
           <button 
             type="submit" 
-            className="w-full py-3 bg-[#4b41e1] text-white font-semibold text-sm rounded-lg shadow-md hover:opacity-90 transition-opacity"
+            style={{
+              width: "100%",
+              padding: "14px",
+              background: "#5141df",
+              color: "#ffffff",
+              fontSize: "15px",
+              fontWeight: 650,
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+              boxShadow: "0 4px 14px rgba(81,65,223,0.25)",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#4335c4")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#5141df")}
           >
             Submit Partnership Inquiry
           </button>

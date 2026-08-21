@@ -3,19 +3,133 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
   body {
-    background-color: #f7f9fb;
-    color: #191c1e;
-    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   }
 }
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Unified Eleva Typography and Styles matching screenshot */
+.eleva-badge {
+  color: #5141df;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.eleva-h1 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(42px, 5.2vw, 68px);
+  font-weight: 750;
+  line-height: 1.08;
+  letter-spacing: -2.5px;
+  color: #111111;
+}
+
+.eleva-h2 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(32px, 3.8vw, 42px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  color: #111111;
+}
+
+.eleva-h3 {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: #111111;
+}
+
+.eleva-p {
+  font-family: 'Inter', sans-serif;
+  color: #5d6370;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.eleva-p-body {
+  font-family: 'Inter', sans-serif;
+  color: #6b707b;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.eleva-card {
+  background: #ffffff;
+  border: 1px solid #e7e8ed;
+  border-radius: 15px;
+  padding: 35px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.eleva-card:hover {
+  border-color: rgba(81, 65, 223, 0.3);
+  box-shadow: 0 12px 32px rgba(81, 65, 223, 0.08);
+  transform: translateY(-2px);
+}
+
+.eleva-btn-primary {
+  background: #5141df;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 650;
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(81, 65, 223, 0.25);
+  transition: all 0.2s ease;
+}
+
+.eleva-btn-primary:hover {
+  background: #4335c4;
+  box-shadow: 0 6px 20px rgba(81, 65, 223, 0.35);
+  transform: translateY(-1px);
+}
+
+.eleva-btn-secondary {
+  background: #ffffff;
+  color: #5141df;
+  border: 1.5px solid #5141df;
+  font-size: 15px;
+  font-weight: 650;
+  padding: 13px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.eleva-btn-secondary:hover {
+  background: rgba(81, 65, 223, 0.05);
+  transform: translateY(-1px);
 }
 
 .premium-shadow {
@@ -32,7 +146,104 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #000000 0%, #4b41e1 100%);
+  background: linear-gradient(135deg, #000000 0%, #5141df 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+/* =========================================================
+   PROFESSIONAL ANIMATIONS & TRANSITIONS
+   ========================================================= */
+
+/* 1. Page Transition */
+@keyframes pageFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: pageFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* 2. Floating Nodes in Ecosystem Network */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes floatSlowReverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes hubPulseGlow {
+  0%, 100% {
+    box-shadow: 0 20px 45px rgba(37, 99, 235, 0.14);
+    transform: translate(-50%, 0) scale(1);
+  }
+  50% {
+    box-shadow: 0 24px 55px rgba(37, 99, 235, 0.26);
+    transform: translate(-50%, -3px) scale(1.02);
+  }
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-float-1 {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatSlowReverse 6.5s ease-in-out infinite 0.5s;
+}
+
+.animate-float-3 {
+  animation: floatSlow 6s ease-in-out infinite 1s;
+}
+
+.animate-hub-pulse {
+  animation: hubPulseGlow 4.5s ease-in-out infinite;
+}
+
+.animate-dash-flow {
+  animation: dashFlow 2.5s linear infinite;
+}
+
+/* 3. Subtle Button Shimmer and Micro-Interactions */
+.interactive-btn {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.interactive-btn:active {
+  transform: scale(0.97);
+}
+
+/* 4. Card Micro-hover Glow */
+.hover-lift {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+}
+

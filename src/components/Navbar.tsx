@@ -1,15 +1,6 @@
 import React from 'react';
 
-<<<<<<< HEAD
-export type PageType =
-  | 'home'
-  | 'how-it-works'
-  | 'institutions'
-  | 'recruiters'
-  | 'about';
-=======
 export type PageType = 'home' | 'how-it-works' | 'institutions' | 'recruiters' | 'about';
->>>>>>> origin/main
 
 interface NavbarProps {
   currentPage?: PageType;
@@ -18,23 +9,6 @@ interface NavbarProps {
   onOpenSignIn: () => void;
 }
 
-<<<<<<< HEAD
-export const Navbar: React.FC<NavbarProps> = ({
-  currentPage = 'home',
-  onNavigate,
-  onOpenPartner,
-  onOpenSignIn,
-}) => {
-  const handleNav = (event: React.MouseEvent, page: PageType) => {
-    event.preventDefault();
-
-    if (onNavigate) {
-      onNavigate(page);
-    }
-
-    window.location.hash = page === 'home' ? '' : page;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-=======
 export const Navbar: React.FC<NavbarProps> = ({ 
   currentPage = 'home',
   onNavigate,
@@ -46,96 +20,40 @@ export const Navbar: React.FC<NavbarProps> = ({
     if (onNavigate) {
       onNavigate(page);
     }
-    if (targetHash) {
+    if (targetHash && page === 'institutions') {
       window.location.hash = targetHash;
       const element = document.querySelector(targetHash);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView();
       }
     } else {
       window.location.hash = page === 'home' ? '' : page;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo(0, 0);
     }
->>>>>>> origin/main
   };
 
   const getLinkClasses = (page: PageType) => {
     const isActive = currentPage === page;
-<<<<<<< HEAD
-
     if (isActive) {
-      return 'text-[#4b41e1] font-bold border-b-2 border-[#4b41e1] pb-1 text-sm font-label cursor-pointer';
+      return "text-[#5141df] font-bold border-b-2 border-[#5141df] pb-1 text-[14.5px] transition-all cursor-pointer";
     }
-
-    return 'text-[#45464d] hover:text-[#4b41e1] transition-colors text-sm font-label hover:bg-[#e6e8ea]/50 rounded-lg px-2 py-1 cursor-pointer';
-=======
-    if (isActive) {
-      return "text-[#4b41e1] font-bold border-b-2 border-[#4b41e1] pb-1 text-sm font-label cursor-pointer";
-    }
-    return "text-[#45464d] hover:text-[#4b41e1] transition-colors text-sm font-label hover:bg-[#e6e8ea]/50 rounded-lg px-2 py-1 cursor-pointer";
->>>>>>> origin/main
+    return "text-[#555b68] hover:text-[#5141df] transition-colors text-[14.5px] font-medium px-2 py-1 cursor-pointer";
   };
 
   return (
-    <nav className="bg-[#ffffff]/80 backdrop-blur-md shadow-sm fixed top-0 left-0 w-full z-50 border-b border-[#c6c6cd]/30">
-      <div className="flex justify-between items-center h-20 px-6 max-w-[1280px] mx-auto">
-<<<<<<< HEAD
-        <a
-          className="font-headline font-extrabold text-[30px] tracking-[-0.01em] text-black cursor-pointer"
-          href="#"
-          onClick={(event) => handleNav(event, 'home')}
-=======
-        {/* Brand */}
+    <nav className="bg-[#ffffff]/90 backdrop-blur-md fixed top-0 left-0 w-full z-50 border-b border-[#e7e8ed]">
+      <div className="flex justify-between items-center h-20 px-6 sm:px-10 lg:px-12 w-full relative">
+        {/* Brand - Left Corner */}
         <a 
-          className="font-headline font-extrabold text-[30px] tracking-[-0.01em] text-black cursor-pointer" 
+          className="font-headline font-extrabold text-[26px] md:text-[28px] tracking-[-0.02em] text-[#111111] cursor-pointer select-none" 
           href="#"
           onClick={(e) => handleNav(e, 'home')}
->>>>>>> origin/main
         >
           ELEVA
         </a>
 
-<<<<<<< HEAD
-        <div className="hidden md:flex items-center space-x-6">
-          <a
-            className={getLinkClasses('home')}
-            href="#home"
-            onClick={(event) => handleNav(event, 'home')}
-          >
-            Home
-          </a>
-
-          <a
-            className={getLinkClasses('how-it-works')}
-            href="#how-it-works"
-            onClick={(event) => handleNav(event, 'how-it-works')}
-          >
-            How It Works
-          </a>
-
-          <a
-            className={getLinkClasses('institutions')}
-            href="#institutions"
-            onClick={(event) => handleNav(event, 'institutions')}
-          >
-            Institutions
-          </a>
-
-          <a
-            className={getLinkClasses('recruiters')}
-            href="#recruiters"
-            onClick={(event) => handleNav(event, 'recruiters')}
-          >
-            Recruiters
-          </a>
-
-          <a
-            className={getLinkClasses('about')}
-            href="#about"
-            onClick={(event) => handleNav(event, 'about')}
-=======
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
+        {/* Desktop Navigation - Centered */}
+        <div className="hidden md:flex items-center space-x-7 lg:space-x-8 absolute left-1/2 -translate-x-1/2">
           <a 
             className={getLinkClasses('home')} 
             href="#hero"
@@ -152,8 +70,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           </a>
           <a 
             className={getLinkClasses('institutions')} 
-            href="#ecosystem"
-            onClick={(e) => handleNav(e, 'institutions', '#ecosystem')}
+            href="#institutions"
+            onClick={(e) => handleNav(e, 'institutions')}
           >
             Institutions
           </a>
@@ -168,33 +86,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             className={getLinkClasses('about')} 
             href="#about"
             onClick={(e) => handleNav(e, 'about')}
->>>>>>> origin/main
           >
             About
           </a>
         </div>
 
-<<<<<<< HEAD
-        <div className="hidden md:flex items-center space-x-3">
-          <button
-=======
-        {/* Actions */}
-        <div className="hidden md:flex items-center space-x-3">
+        {/* Actions - Right Corner */}
+        <div className="hidden md:flex items-center space-x-3.5">
           <button 
->>>>>>> origin/main
             onClick={onOpenSignIn}
-            className="text-[#45464d] hover:text-black transition-colors text-sm font-semibold px-2 py-1"
+            className="text-[#45464d] hover:text-black hover:bg-black/5 active:scale-[0.97] transition-all text-[14.5px] font-semibold px-3.5 py-2 rounded-lg cursor-pointer"
           >
             Sign In
           </button>
-<<<<<<< HEAD
-
-          <button
-=======
           <button 
->>>>>>> origin/main
             onClick={onOpenPartner}
-            className="bg-[#4b41e1] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity shadow-sm"
+            className="bg-[#5141df] text-white px-5 py-2.5 rounded-lg text-[14.5px] font-semibold hover:bg-[#4335c4] hover:-translate-y-0.5 active:scale-[0.97] transition-all shadow-[0_4px_12px_rgba(81,65,223,0.2)] hover:shadow-[0_6px_16px_rgba(81,65,223,0.3)] cursor-pointer"
           >
             Partner With Us
           </button>
@@ -202,8 +109,5 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
     </nav>
   );
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> origin/main
+

@@ -1,6 +1,11 @@
 import React from "react";
 
-const Recruiters: React.FC = () => {
+interface RecruitersProps {
+  onOpenPartner?: () => void;
+  onOpenSignIn?: () => void;
+}
+
+const Recruiters: React.FC<RecruitersProps> = ({ onOpenPartner, onOpenSignIn }) => {
   return (
     <div
       style={{
@@ -13,8 +18,8 @@ const Recruiters: React.FC = () => {
       {/* HERO */}
       <section
         style={{
-          minHeight: "680px",
-          padding: "90px 8%",
+          minHeight: "560px",
+          padding: "50px 8% 80px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -38,11 +43,11 @@ const Recruiters: React.FC = () => {
 
           <h1
             style={{
-              fontSize: "clamp(42px, 5vw, 68px)",
+              fontSize: "clamp(48px, 5.5vw, 72px)",
               lineHeight: 1.05,
               letterSpacing: "-3px",
               margin: "20px 0",
-              fontWeight: 750,
+              fontWeight: 700,
             }}
           >
             Find the right
@@ -54,12 +59,12 @@ const Recruiters: React.FC = () => {
             style={{
               fontSize: "18px",
               lineHeight: 1.7,
-              color: "#555b68",
+              color: "#5d6370",
               maxWidth: "520px",
             }}
           >
             Connect with ambitious students from leading educational
-            institutions and discover the talent your organization needs.
+            institutions and discover the verified talent your organization needs.
           </p>
 
           <div
@@ -71,8 +76,9 @@ const Recruiters: React.FC = () => {
             }}
           >
             <button
+              onClick={onOpenPartner}
               style={{
-                padding: "15px 26px",
+                padding: "15px 28px",
                 borderRadius: "8px",
                 border: "none",
                 background: "#5141df",
@@ -80,14 +86,19 @@ const Recruiters: React.FC = () => {
                 fontSize: "15px",
                 fontWeight: 650,
                 cursor: "pointer",
+                boxShadow: "0 4px 14px rgba(81,65,223,0.25)",
+                transition: "all 0.2s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#4335c4")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#5141df")}
             >
               Partner With Eleva
             </button>
 
             <button
+              onClick={onOpenSignIn}
               style={{
-                padding: "15px 26px",
+                padding: "14px 26px",
                 borderRadius: "8px",
                 border: "1.5px solid #5141df",
                 background: "#ffffff",
@@ -95,7 +106,10 @@ const Recruiters: React.FC = () => {
                 fontSize: "15px",
                 fontWeight: 650,
                 cursor: "pointer",
+                transition: "all 0.2s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(81, 65, 223, 0.05)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "#ffffff")}
             >
               Sign In
             </button>
@@ -118,7 +132,7 @@ const Recruiters: React.FC = () => {
               borderRadius: "20px",
               background: "#ffffff",
               border: "1px solid #e5e7ef",
-              boxShadow: "0 20px 60px rgba(30,35,70,0.1)",
+              boxShadow: "0 20px 60px rgba(30,35,70,0.06)",
               overflow: "hidden",
             }}
           >
@@ -127,7 +141,7 @@ const Recruiters: React.FC = () => {
                 padding: "28px",
                 fontSize: "20px",
                 fontWeight: 700,
-                color: "#151a4b",
+                color: "#111111",
               }}
             >
               ELEVA{" "}
@@ -135,6 +149,74 @@ const Recruiters: React.FC = () => {
                 | Talent Network
               </span>
             </div>
+
+            {/* SVG Connecting Dashed Lines */}
+            <svg 
+              className="absolute inset-0 w-full h-full pointer-events-none z-[1]" 
+              viewBox="0 0 100 100" 
+              preserveAspectRatio="none"
+            >
+              {/* Node 1: Top-Left S to Center E */}
+              <line 
+                x1="24%" 
+                y1="30%" 
+                x2="50%" 
+                y2="48%" 
+                stroke="#5141df" 
+                strokeWidth="1.5" 
+                strokeDasharray="3 3" 
+                strokeOpacity="0.45"
+                className="animate-dash-flow"
+              />
+              {/* Node 2: Top-Right T to Center E */}
+              <line 
+                x1="76%" 
+                y1="28%" 
+                x2="50%" 
+                y2="48%" 
+                stroke="#5141df" 
+                strokeWidth="1.5" 
+                strokeDasharray="3 3" 
+                strokeOpacity="0.45"
+                className="animate-dash-flow"
+              />
+              {/* Node 3: Mid-Left S to Center E */}
+              <line 
+                x1="13%" 
+                y1="53%" 
+                x2="50%" 
+                y2="48%" 
+                stroke="#5141df" 
+                strokeWidth="1.5" 
+                strokeDasharray="3 3" 
+                strokeOpacity="0.45"
+                className="animate-dash-flow"
+              />
+              {/* Node 4: Bottom-Left R to Center E */}
+              <line 
+                x1="27%" 
+                y1="76%" 
+                x2="50%" 
+                y2="48%" 
+                stroke="#5141df" 
+                strokeWidth="1.5" 
+                strokeDasharray="3 3" 
+                strokeOpacity="0.45"
+                className="animate-dash-flow"
+              />
+              {/* Node 5: Bottom-Right C to Center E */}
+              <line 
+                x1="74%" 
+                y1="77%" 
+                x2="50%" 
+                y2="48%" 
+                stroke="#5141df" 
+                strokeWidth="1.5" 
+                strokeDasharray="3 3" 
+                strokeOpacity="0.45"
+                className="animate-dash-flow"
+              />
+            </svg>
 
             {/* Center */}
             <div
@@ -162,11 +244,11 @@ const Recruiters: React.FC = () => {
 
             {/* Nodes */}
             {[
-              { text: "S", top: "25%", left: "20%" },
-              { text: "T", top: "23%", right: "20%" },
-              { text: "R", bottom: "20%", left: "22%" },
-              { text: "C", bottom: "19%", right: "22%" },
-              { text: "S", top: "48%", left: "8%" },
+              { text: "S", top: "25%", left: "20%", anim: "animate-float-1" },
+              { text: "T", top: "23%", right: "20%", anim: "animate-float-2" },
+              { text: "R", bottom: "20%", left: "22%", anim: "animate-float-3" },
+              { text: "C", bottom: "19%", right: "22%", anim: "animate-float-1" },
+              { text: "S", top: "48%", left: "8%", anim: "animate-float-2" },
             ].map((node, index) => (
               <div
                 key={index}
@@ -188,6 +270,7 @@ const Recruiters: React.FC = () => {
                   fontWeight: 700,
                   zIndex: 2,
                 }}
+                className={node.anim}
               >
                 {node.text}
               </div>
@@ -260,9 +343,12 @@ const Recruiters: React.FC = () => {
 
           <h2
             style={{
-              fontSize: "clamp(38px, 5vw, 52px)",
+              fontSize: "clamp(32px, 3.8vw, 42px)",
               letterSpacing: "-2px",
+              lineHeight: 1.1,
+              fontWeight: 700,
               margin: "15px 0",
+              color: "#111111",
             }}
           >
             Built for modern{" "}
@@ -271,8 +357,8 @@ const Recruiters: React.FC = () => {
 
           <p
             style={{
-              color: "#666b77",
-              fontSize: "17px",
+              color: "#5d6370",
+              fontSize: "18px",
               lineHeight: 1.7,
             }}
           >
@@ -310,28 +396,32 @@ const Recruiters: React.FC = () => {
               key={item.number}
               style={{
                 padding: "35px",
-                border: "1px solid #e8e9ef",
+                border: "1px solid #e7e8ed",
                 borderRadius: "15px",
+                background: "#ffffff",
+                transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
               }}
+              className="hover:border-[#5141df]/40 hover:shadow-[0_12px_32px_rgba(81,65,223,0.08)] hover:-translate-y-1"
             >
               <span
                 style={{
                   color: "#5141df",
-                  fontSize: "14px",
+                  fontSize: "13px",
                   fontWeight: 700,
                 }}
               >
                 {item.number}
               </span>
 
-              <h3 style={{ fontSize: "22px", margin: "25px 0 12px" }}>
+              <h3 style={{ fontSize: "21px", fontWeight: 700, margin: "22px 0 12px", color: "#111111" }}>
                 {item.title}
               </h3>
 
               <p
                 style={{
-                  color: "#6c707a",
-                  lineHeight: 1.65,
+                  color: "#6b707b",
+                  lineHeight: 1.7,
+                  fontSize: "15px",
                   margin: 0,
                 }}
               >
@@ -345,65 +435,83 @@ const Recruiters: React.FC = () => {
       {/* CTA */}
       <section
         style={{
-          margin: "20px 8% 100px",
-          padding: "70px",
-          borderRadius: "20px",
-          background: "#11142b",
-          color: "#ffffff",
+          margin: "40px 8% 0px",
+          padding: "75px 40px",
+          borderRadius: "24px",
+          background: "#f3f1ff",
+          textAlign: "center",
         }}
       >
-        <span
-          style={{
-            color: "#9c93ff",
-            fontSize: "13px",
-            fontWeight: 700,
-            letterSpacing: "1.5px",
-          }}
-        >
-          READY TO CONNECT?
-        </span>
-
         <h2
           style={{
-            fontSize: "clamp(36px, 5vw, 50px)",
-            lineHeight: 1.1,
+            fontSize: "clamp(34px, 4.2vw, 46px)",
+            lineHeight: 1.15,
             letterSpacing: "-2px",
-            margin: "15px 0",
+            margin: "0 0 16px",
+            fontWeight: 800,
+            color: "#111111",
           }}
         >
-          Your next great hire
-          <br />
-          could be on ELEVA.
+          Ready to elevate your <span style={{ color: "#5141df" }}>hiring?</span>
         </h2>
 
         <p
           style={{
-            color: "#c4c7d2",
-            maxWidth: "550px",
+            color: "#555b68",
+            maxWidth: "600px",
+            margin: "0 auto 32px",
             lineHeight: 1.7,
+            fontSize: "16px",
           }}
         >
-          Partner with ELEVA and connect your organization with the next
-          generation of talent.
+          Join ELEVA and experience a platform that brings education, talent, and
+          opportunity together seamlessly.
         </p>
 
-        <button
-          style={{
-            marginTop: "20px",
-            padding: "15px 28px",
-            borderRadius: "8px",
-            border: "none",
-            background: "#5141df",
-            color: "#ffffff",
-            fontWeight: 650,
-            cursor: "pointer",
-          }}
-        >
-          Partner With Eleva
-        </button>
+        <div className="flex flex-wrap justify-center items-center gap-4">
+          <button
+            onClick={onOpenPartner}
+            style={{
+              padding: "14px 28px",
+              borderRadius: "10px",
+              border: "none",
+              background: "#5141df",
+              color: "#ffffff",
+              fontSize: "15px",
+              fontWeight: 650,
+              cursor: "pointer",
+              boxShadow: "0 4px 16px rgba(81,65,223,0.3)",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#4335c4")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#5141df")}
+          >
+            Partner With Eleva
+          </button>
+
+          <button
+            onClick={onOpenSignIn}
+            style={{
+              padding: "13px 26px",
+              borderRadius: "10px",
+              border: "1.5px solid #5141df",
+              background: "#ffffff",
+              color: "#5141df",
+              fontSize: "15px",
+              fontWeight: 650,
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(81, 65, 223, 0.05)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#ffffff")}
+          >
+            Sign In
+          </button>
+        </div>
       </section>
     </div>
   );
 };
 
 export default Recruiters;
+
