@@ -5,8 +5,11 @@ import { env } from "./config/env.js";
 async function startServer() {
   try {
     await connectDatabase();
-    app.listen(env.port, () => {
-      console.log(`Eleva backend running on http://localhost:${env.port}`);
+
+    app.listen(env.port, "0.0.0.0", () => {
+      console.log(
+        `Eleva backend running on port ${env.port}`
+      );
     });
   } catch (error) {
     console.error("Failed to start server:", error);
