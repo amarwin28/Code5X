@@ -1,79 +1,22 @@
-const institutionService = require('../services/institutionService');
-const { sendSuccess } = require('../utils/response');
+import * as service from "../services/institutionService.js";
+import { success } from "../utils/response.js";
 
-class InstitutionController {
-  /**
-   * POST /api/v1/institutions
-   */
-  async createProfile(req, res, next) {
-    try {
-      const institution = await institutionService.createProfile(req.user.id, req.body);
-      return sendSuccess(res, { institution }, 'Institution profile created successfully', 201);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/institutions/me
-   */
-  async getMyProfile(req, res, next) {
-    try {
-      const institution = await institutionService.getInstitutionByUserId(req.user.id);
-      return sendSuccess(res, { institution }, 'Institution profile retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * PUT /api/v1/institutions/me
-   */
-  async updateMyProfile(req, res, next) {
-    try {
-      const currentInstitution = await institutionService.getInstitutionByUserId(req.user.id);
-      const institution = await institutionService.updateProfile(currentInstitution.id, req.body);
-      return sendSuccess(res, { institution }, 'Institution profile updated successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/institutions/:id
-   */
-  async getInstitutionById(req, res, next) {
-    try {
-      const institution = await institutionService.getInstitutionById(req.params.id);
-      return sendSuccess(res, { institution }, 'Institution retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/institutions/:id/analytics
-   */
-  async getAnalytics(req, res, next) {
-    try {
-      const analytics = await institutionService.getInstitutionAnalytics(req.params.id);
-      return sendSuccess(res, { analytics }, 'Analytics retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/institutions
-   */
-  async getAllInstitutions(req, res, next) {
-    try {
-      const institutions = await institutionService.getAllInstitutions();
-      return sendSuccess(res, { institutions }, 'Institutions retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
+export async function list(req, res, next) {
+  try { return success(res, await service.listInstitutions()); } catch (e) { next(e); }
 }
 
-module.exports = new InstitutionController();
+export async function get(req, res, next) {
+  try {
+    const item = await service.getInstitution(req.params.id);
+    if (!item) return res.status(404).json({ success: false, message: "Institution not found" });
+    return success(res, item);
+  } catch (e) { next(e); }
+}
+
+export async function create(req, res, next) {
+  try { return success(res, await service.createInstitution(req.body), "Institution created", 201); } catch (e) { next(e); }
+}
+
+export async function update(req, res, next) {
+  try { return success(res, await service.updateInstitution(req.params.id, req.body), "Institution updated"); } catch (e) { next(e); }
+}

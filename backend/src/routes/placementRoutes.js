@@ -1,25 +1,12 @@
-const express = require('express');
-const placementController = require('../controllers/placementController');
-const { authenticate } = require('../middleware/authMiddleware');
-const { authorize } = require('../middleware/roleMiddleware');
+import { Router } from "express";
+import * as controller from "../controllers/placementController.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+const router = Router();
 
-// Record confirmed placement (Recruiter, Institution, Admin)
-router.post(
-  '/',
-  authenticate,
-  authorize('RECRUITER', 'ADMIN', 'INSTITUTION'),
-  placementController.recordPlacement
-);
+router.get("/", controller.list);
+router.get("/:id", controller.get);
+router.post("/", authenticate, controller.create);
+router.put("/:id", authenticate, controller.update);
 
-// Get overall placement analytics
-router.get('/analytics/overall', authenticate, placementController.getOverallAnalytics);
-
-// Query placements
-router.get('/', authenticate, placementController.getAllPlacements);
-
-// Get single placement details
-router.get('/:id', authenticate, placementController.getPlacementById);
-
-module.exports = router;
+export default router;

@@ -1,43 +1,12 @@
-const express = require('express');
-const studentController = require('../controllers/studentController');
-const { authenticate } = require('../middleware/authMiddleware');
-const { authorize } = require('../middleware/roleMiddleware');
-const { validate } = require('../middleware/validationMiddleware');
-const {
-  createStudentSchema,
-  updateStudentSchema,
-  queryStudentsSchema,
-} = require('../validators/studentValidator');
+import { Router } from "express";
+import * as controller from "../controllers/studentController.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+const router = Router();
 
-// Current student profile
-router.post(
-  '/',
-  authenticate,
-  authorize('STUDENT', 'ADMIN'),
-  validate(createStudentSchema),
-  studentController.createProfile
-);
+router.get("/", authenticate, controller.list);
+router.get("/:id", authenticate, controller.get);
+router.post("/", authenticate, controller.create);
+router.put("/:id", authenticate, controller.update);
 
-router.get('/me', authenticate, authorize('STUDENT'), studentController.getMyProfile);
-router.put(
-  '/me',
-  authenticate,
-  authorize('STUDENT'),
-  validate(updateStudentSchema),
-  studentController.updateMyProfile
-);
-
-// Query students (Institution, Recruiter, Admin)
-router.get(
-  '/',
-  authenticate,
-  authorize('INSTITUTION', 'RECRUITER', 'ADMIN'),
-  validate(queryStudentsSchema, 'query'),
-  studentController.getAllStudents
-);
-
-router.get('/:id', authenticate, studentController.getStudentById);
-
-module.exports = router;
+export default router;

@@ -1,51 +1,12 @@
-const express = require('express');
-const opportunityController = require('../controllers/opportunityController');
-const { authenticate } = require('../middleware/authMiddleware');
-const { authorize } = require('../middleware/roleMiddleware');
-const { validate } = require('../middleware/validationMiddleware');
-const {
-  createOpportunitySchema,
-  updateOpportunitySchema,
-  queryOpportunitiesSchema,
-} = require('../validators/opportunityValidator');
+import { Router } from "express";
+import * as controller from "../controllers/opportunityController.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+const router = Router();
 
-// List & Search opportunities (all authenticated users)
-router.get(
-  '/',
-  authenticate,
-  validate(queryOpportunitiesSchema, 'query'),
-  opportunityController.getAllOpportunities
-);
+router.get("/", controller.list);
+router.get("/:id", controller.get);
+router.post("/", authenticate, controller.create);
+router.put("/:id", authenticate, controller.update);
 
-// Get single opportunity
-router.get('/:id', authenticate, opportunityController.getOpportunityById);
-
-// Create opportunity (Recruiter or Admin)
-router.post(
-  '/',
-  authenticate,
-  authorize('RECRUITER', 'ADMIN'),
-  validate(createOpportunitySchema),
-  opportunityController.createOpportunity
-);
-
-// Update opportunity
-router.put(
-  '/:id',
-  authenticate,
-  authorize('RECRUITER', 'ADMIN'),
-  validate(updateOpportunitySchema),
-  opportunityController.updateOpportunity
-);
-
-// Change opportunity status (OPEN, CLOSED, ARCHIVED)
-router.patch(
-  '/:id/status',
-  authenticate,
-  authorize('RECRUITER', 'ADMIN'),
-  opportunityController.updateStatus
-);
-
-module.exports = router;
+export default router;

@@ -1,67 +1,22 @@
-const studentService = require('../services/studentService');
-const { sendSuccess, AppError } = require('../utils/response');
+import * as service from "../services/studentService.js";
+import { success } from "../utils/response.js";
 
-class StudentController {
-  /**
-   * POST /api/v1/students
-   */
-  async createProfile(req, res, next) {
-    try {
-      const student = await studentService.createProfile(req.user.id, req.body);
-      return sendSuccess(res, { student }, 'Student profile created successfully', 201);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/students/me
-   */
-  async getMyProfile(req, res, next) {
-    try {
-      const student = await studentService.getStudentByUserId(req.user.id);
-      return sendSuccess(res, { student }, 'Student profile retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * PUT /api/v1/students/me
-   */
-  async updateMyProfile(req, res, next) {
-    try {
-      const currentStudent = await studentService.getStudentByUserId(req.user.id);
-      const student = await studentService.updateProfile(currentStudent.id, req.body);
-      return sendSuccess(res, { student }, 'Student profile updated successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/students/:id
-   */
-  async getStudentById(req, res, next) {
-    try {
-      const student = await studentService.getStudentById(req.params.id);
-      return sendSuccess(res, { student }, 'Student retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  /**
-   * GET /api/v1/students
-   */
-  async getAllStudents(req, res, next) {
-    try {
-      const result = await studentService.getAllStudents(req.query);
-      return sendSuccess(res, result, 'Students retrieved successfully', 200);
-    } catch (error) {
-      next(error);
-    }
-  }
+export async function list(req, res, next) {
+  try { return success(res, await service.listStudents()); } catch (e) { next(e); }
 }
 
-module.exports = new StudentController();
+export async function get(req, res, next) {
+  try {
+    const item = await service.getStudent(req.params.id);
+    if (!item) return res.status(404).json({ success: false, message: "Student not found" });
+    return success(res, item);
+  } catch (e) { next(e); }
+}
+
+export async function create(req, res, next) {
+  try { return success(res, await service.createStudent(req.body), "Student created", 201); } catch (e) { next(e); }
+}
+
+export async function update(req, res, next) {
+  try { return success(res, await service.updateStudent(req.params.id, req.body), "Student updated"); } catch (e) { next(e); }
+}

@@ -1,45 +1,12 @@
-const express = require('express');
-const recruiterController = require('../controllers/recruiterController');
-const { authenticate } = require('../middleware/authMiddleware');
-const { authorize } = require('../middleware/roleMiddleware');
-const { validate } = require('../middleware/validationMiddleware');
-const {
-  createRecruiterSchema,
-  updateRecruiterSchema,
-  verifyRecruiterSchema,
-} = require('../validators/recruiterValidator');
+import { Router } from "express";
+import * as controller from "../controllers/recruiterController.js";
+import { authenticate } from "../middleware/authMiddleware.js";
 
-const router = express.Router();
+const router = Router();
 
-// Current recruiter profile
-router.post(
-  '/',
-  authenticate,
-  authorize('RECRUITER', 'ADMIN'),
-  validate(createRecruiterSchema),
-  recruiterController.createProfile
-);
+router.get("/", controller.list);
+router.get("/:id", controller.get);
+router.post("/", authenticate, controller.create);
+router.put("/:id", authenticate, controller.update);
 
-router.get('/me', authenticate, authorize('RECRUITER'), recruiterController.getMyProfile);
-router.put(
-  '/me',
-  authenticate,
-  authorize('RECRUITER'),
-  validate(updateRecruiterSchema),
-  recruiterController.updateMyProfile
-);
-
-// Admin verification
-router.patch(
-  '/:id/verify',
-  authenticate,
-  authorize('ADMIN'),
-  validate(verifyRecruiterSchema),
-  recruiterController.verifyRecruiter
-);
-
-// Discovery
-router.get('/', authenticate, recruiterController.getAllRecruiters);
-router.get('/:id', authenticate, recruiterController.getRecruiterById);
-
-module.exports = router;
+export default router;

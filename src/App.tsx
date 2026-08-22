@@ -12,8 +12,14 @@ import HowItWorks from './pages/HowItWorks';
 import About from './pages/About';
 import Recruiters from './pages/Recruiters';
 import Institutions from './pages/Institutions';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { DashboardLayout } from './components/dashboard/DashboardLayout';
+import { StudentDashboard } from './pages/dashboard/StudentDashboard';
+import { InstitutionDashboard } from './pages/dashboard/InstitutionDashboard';
+import { RecruiterDashboard } from './pages/dashboard/RecruiterDashboard';
 
-export function App() {
+function MainContent() {
+  const { user, role } = useAuth();
   const [isPartnerOpen, setIsPartnerOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -58,6 +64,19 @@ export function App() {
     }, 4000);
   };
 
+  // If user is authenticated, render the separate Dashboard Application area
+  if (user) {
+    return (
+      <DashboardLayout>
+        {role === 'STUDENT' && <StudentDashboard />}
+        {role === 'INSTITUTION' && <InstitutionDashboard />}
+        {role === 'RECRUITER' && <RecruiterDashboard />}
+        <ToastContainer toasts={toasts} />
+      </DashboardLayout>
+    );
+  }
+
+  // Unauthenticated: Render exact frozen public site
   const renderPage = () => {
     switch (currentPage) {
       case 'how-it-works':
@@ -130,6 +149,14 @@ export function App() {
 
       <ToastContainer toasts={toasts} />
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <AuthProvider>
+      <MainContent />
+    </AuthProvider>
   );
 }
 

@@ -1,26 +1,9 @@
-const bcrypt = require('bcryptjs');
+import bcrypt from "bcryptjs";
 
-/**
- * Hash a plain text password
- * @param {string} password
- * @returns {Promise<string>}
- */
-const hashPassword = async (password) => {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
-};
+export function hashPassword(password) {
+  return bcrypt.hash(password, 12);
+}
 
-/**
- * Compare plain text password with hashed password
- * @param {string} password
- * @param {string} hashedPassword
- * @returns {Promise<boolean>}
- */
-const comparePassword = async (password, hashedPassword) => {
-  return bcrypt.compare(password, hashedPassword);
-};
-
-module.exports = {
-  hashPassword,
-  comparePassword,
-};
+export function comparePassword(password, hash) {
+  return bcrypt.compare(password, hash);
+}

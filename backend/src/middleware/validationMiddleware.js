@@ -1,31 +1,17 @@
-const { AppError } = require('../utils/response');
-
-/**
- * Validate incoming request object (body, query, params) against Joi schema
- * @param {import('joi').ObjectSchema} schema
- * @param {'body' | 'query' | 'params'} source
- */
-const validate = (schema, source = 'body') => {
+export function validateBody(requiredFields = []) {
   return (req, res, next) => {
-    const { error, value } = schema.validate(req[source], {
-      abortEarly: false,
-      stripUnknown: true,
-    });
+    const missing = requiredFields.filter(
+      (field) => req.body?.[field] === undefined || req.body?.[field] === ""
+    );
 
-    if (error) {
-      const formattedErrors = error.details.map((detail) => ({
-        field: detail.path.join('.'),
-        message: detail.message.replace(/"/g, ''),
-      }));
-
-      return next(new AppError('Validation failed', 400, formattedErrors));
+    if (missing.length) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        details: { missing }
+      });
     }
 
-    req[source] = value;
     next();
   };
-};
-
-module.exports = {
-  validate,
-};
+}

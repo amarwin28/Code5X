@@ -1,45 +1,39 @@
-const logger = require('../utils/logger');
-const { sendError } = require('../utils/response');
+export function notFound(req, res) {
+  res.status(404).json({ success: false, message: `Route not found: ${req.method} ${req.path}` });
+}
 
-/**
- * Global error handling middleware
- */
-const errorHandler = (err, req, res, next) => {
-  let statusCode = err.statusCode || 500;
-  let message = err.message || 'Internal Server Error';
-  let errors = err.errors || null;
-
-  // Handle Prisma Known Request Errors
-  if (err.code === 'P2002') {
-    statusCode = 409;
-    const target = err.meta?.target ? ` (${err.meta.target})` : '';
-    message = `A record with this field value already exists${target}.`;
-  } else if (err.code === 'P2025') {
-    statusCode = 404;
-    message = 'Requested record was not found.';
-  } else if (err.name === 'JsonWebTokenError') {
-    statusCode = 401;
-    message = 'Invalid authentication token.';
-  } else if (err.name === 'TokenExpiredError') {
-    statusCode = 401;
-    message = 'Authentication token has expired.';
+export function errorHandler(err, req, res, next) {
+  const statusCode = err.status || err.statusCode || 500;
+  if (statusCode >= 500 && process.env.NODE_ENV !== "test") {
+    console.error(err);
   }
 
-  if (process.env.NODE_ENV !== 'test' || statusCode >= 500) {
-    logger.error(`[${req.method}] ${req.originalUrl} - ${statusCode} - ${message}`, statusCode >= 500 ? (err.stack || '') : '');
+  if (err.code === "P2025") {
+    return res.status(404).json({
+      success: false,
+      message: "Resource not found"
+    });
   }
 
-  return sendError(res, message, statusCode, errors);
-};
+  if (err.code === "P2002") {
+    return res.status(409).json({
+      success: false,
+      message: "A resource with this unique field already exists",
+      details: { target: err.meta?.target }
+    });
+  }
 
-/**
- * 404 Not Found Route Handler
- */
-const notFoundHandler = (req, res, next) => {
-  return sendError(res, `Route ${req.originalUrl} not found`, 404);
-};
+  if (err.code === "P2003") {
+    return res.status(400).json({
+      success: false,
+      message: "Foreign key constraint failed",
+      details: { field: err.meta?.field_name }
+    });
+  }
 
-module.exports = {
-  errorHandler,
-  notFoundHandler,
-};
+  return res.status(statusCode).json({
+    success: false,
+    message: err.message || "Internal server error",
+    ...(err.details ? { details: err.details } : {})
+  });
+}
